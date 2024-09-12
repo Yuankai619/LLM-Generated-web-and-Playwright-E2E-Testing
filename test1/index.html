@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>井字遊戲</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>井字遊戲</h1>
+        <div id="board" class="board">
+            <div class="cell" data-index="0"></div>
+            <div class="cell" data-index="1"></div>
+            <div class="cell" data-index="2"></div>
+            <div class="cell" data-index="3"></div>
+            <div class="cell" data-index="4"></div>
+            <div class="cell" data-index="5"></div>
+            <div class="cell" data-index="6"></div>
+            <div class="cell" data-index="7"></div>
+            <div class="cell" data-index="8"></div>
+        </div>
+    </div>
+
+    <!-- 選擇符號的彈跳視窗 -->
+    <div id="symbolChoice" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>選擇你的符號</h2>
+            <button id="chooseX">X</button>
+            <button id="chooseO">O</button>
+        </div>
+    </div>
+
+    <!-- 贏/輸/平局通知的彈跳視窗 -->
+    <div id="resultModal" class="modal">
+        <div class="modal-content">
+            <h2 id="resultMessage"></h2>
+            <button id="confirmResult">確定</button>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
