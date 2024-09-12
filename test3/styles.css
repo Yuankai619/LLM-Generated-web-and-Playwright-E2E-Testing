@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#order-form table, #orders {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#order-form th, #order-form td,
+#orders th, #orders td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#order-form th, #orders th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#order-form select, 
+#order-form input[type="number"], 
+#order-form input[type="text"] {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+#confirm, #delete-selected, #checkout {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+#confirm:hover, #delete-selected:hover, #checkout:hover {
+    background-color: #45a049;
+}
+
+#price, #total {
+    font-weight: bold;
+}
+
+#order-summary {
+    margin-left: 20px;
+    font-weight: bold;
+}
