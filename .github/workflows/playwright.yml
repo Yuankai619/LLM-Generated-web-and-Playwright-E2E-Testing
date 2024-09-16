@@ -75,8 +75,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: zip-files
-          path: zip-files/
+          name: playwright-report-${{ matrix.folder }}
+          path: ${{ matrix.folder }}/playwright-report/
           retention-days: 30
   deploy:
       needs: test
@@ -86,11 +86,15 @@ jobs:
         - uses: actions/checkout@v4
         - uses: actions/download-artifact@v4
           with:
-            name: zip-files
-            path: zip-files/
+            # 不指定名称，下载所有工件
+            path: all-zip-files/
+        - name: Collect all zip files
+          run: |
+            mkdir -p deploy-zip-files
+            find all-zip-files/ -name "*.zip" -exec cp {} deploy-zip-files/ \;
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3
           with:
             personal_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: zip-files/
+            publish_dir: deploy-zip-files/
             destination_dir: /
