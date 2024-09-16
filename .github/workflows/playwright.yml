@@ -13,14 +13,40 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
+
       - id: set-matrix
         run: |
-          folders=$(find . -maxdepth 1 -type d -name 'test*' | sed 's|./||')
-          echo "Found folders: $folders"
+          # 初始化一个空的数组来存储符合条件的文件夹
+          folders=()
 
-          folders_json=$(printf '%s\n' "$folders" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          # 遍历所有以 'test' 开头的子目录
+          for dir in test*; do
+            if [ -d "$dir" ]; then
+              # 检查子目录中是否存在 package.json 文件
+              if [ -f "$dir/package.json" ]; then
+                # 可选：检查 package.json 中是否包含 Playwright 依赖
+                if grep -q '"playwright"' "$dir/package.json"; then
+                  echo "Adding $dir to matrix (contains Playwright)"
+                  folders+=("$dir")
+                else
+                  echo "Skipping $dir (Playwright not found in package.json)"
+                fi
+              else
+                echo "Skipping $dir (package.json not found)"
+              fi
+            fi
+          done
+
+          # 如果没有符合条件的文件夹，设置一个默认值，以避免矩阵为空导致错误
+          if [ ${#folders[@]} -eq 0 ]; then
+            echo "No valid folders found."
+            folders_json='["__no_folder__"]'
+          else
+            # 将文件夹数组转换为 JSON 格式
+            folders_json=$(printf '%s\n' "${folders[@]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          fi
+
           echo "Folders JSON: $folders_json"
-
           echo "matrix={\"folder\": $folders_json}" >> $GITHUB_OUTPUT
 
   test:
@@ -28,6 +54,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
+      # 如果矩阵中的文件夹为 '__no_folder__'，则跳过此作业
+      fail-fast: false
+      max-parallel: 4
+    if: ${{ matrix.folder != '__no_folder__' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
