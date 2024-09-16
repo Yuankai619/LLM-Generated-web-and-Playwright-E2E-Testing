@@ -69,8 +69,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: playwright-report-${{ matrix.folder }}
-          path: ${{ matrix.folder }}/playwright-report/
+          name: zip-files-${{ matrix.folder }}
+          path: zip-files/${{ matrix.folder }}
           retention-days: 30
       - uses: actions/upload-artifact@v4
         if: always()
