@@ -7,7 +7,6 @@ on:
     branches: [ main, master ]
 
 jobs:
-  # 第一个 Job：生成矩阵
   generate-matrix:
     runs-on: ubuntu-latest
     outputs:
@@ -18,9 +17,11 @@ jobs:
         run: |
           folders=$(find . -maxdepth 1 -type d -name 'test*' | sed 's|./||')
           echo "Found folders: $folders"
-        
-          matrix=$(printf '{"folder": [%s]}' "$(echo $folders | jq -R -s -c 'split("\n") | map(select(length > 0))')")
-          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+
+          folders_json=$(printf '%s\n' "$folders" | jq -R -s -c 'split("\n") | map(select(length > 0))')
+          echo "Folders JSON: $folders_json"
+
+          echo "matrix={\"folder\": $folders_json}" >> $GITHUB_OUTPUT
 
   test:
     needs: generate-matrix
