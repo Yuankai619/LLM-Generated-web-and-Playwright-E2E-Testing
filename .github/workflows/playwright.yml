@@ -93,9 +93,13 @@ jobs:
           run: |
             mkdir -p deploy-zip-files
             find all-zip-files/ -name "*.zip" -exec cp {} deploy-zip-files/ \;
+        - name: List deploy-zip-files directory
+          run: |
+            echo "Listing contents of deploy-zip-files/"
+            ls -R deploy-zip-files/
         - name: Deploy to GitHub Pages
           uses: peaceiris/actions-gh-pages@v3
           with:
             personal_token: ${{ secrets.GITHUB_TOKEN }}
             publish_dir: deploy-zip-files/
-            destination_dir: ./
+            
