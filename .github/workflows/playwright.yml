@@ -72,3 +72,25 @@ jobs:
           name: playwright-report-${{ matrix.folder }}
           path: ${{ matrix.folder }}/playwright-report/
           retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: zip-files
+          path: zip-files/
+          retention-days: 30
+  deploy:
+      needs: test
+      runs-on: ubuntu-latest
+      if: needs.test.result == 'success'
+      steps:
+        - uses: actions/checkout@v4
+        - uses: actions/download-artifact@v4
+          with:
+            name: zip-files
+            path: zip-files/
+        - name: Deploy to GitHub Pages
+          uses: peaceiris/actions-gh-pages@v3
+          with:
+            personal_token: ${{ secrets.GITHUB_TOKEN }}
+            publish_dir: zip-files/
+            destination_dir: /
