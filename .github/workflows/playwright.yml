@@ -28,7 +28,7 @@ jobs:
                 echo "Adding $dir to matrix (contains Playwright)"
                 folders+=("$dir")
               else
-                echo "Skipping $dir (package.json not found)"
+                echo "Skipping $dir (playwright.config.ts not found)"
               fi
             fi
           done
