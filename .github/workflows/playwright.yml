@@ -97,4 +97,4 @@ jobs:
           with:
             personal_token: ${{ secrets.GITHUB_TOKEN }}
             publish_dir: deploy-zip-files/
-            destination_dir: /
+            destination_dir: ./
