@@ -67,6 +67,18 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
         working-directory: ${{ matrix.folder }}
+      - name: List test-results directory
+        run: |
+          echo "Listing contents of ${{ matrix.folder }}/test-results/"
+          ls -R ${{ matrix.folder }}/test-results/
+      - name: Collect zip files
+        run: |
+          mkdir -p zip-files/${{ matrix.folder }}
+          find ${{ matrix.folder }}/test-results/ -name '*.zip' -type f -exec cp {} zip-files/${{ matrix.folder }}/ \;
+      - name: List collected zip files
+        run: |
+          echo "Listing collected zip files in zip-files/${{ matrix.folder }}/"
+          ls -R zip-files/${{ matrix.folder }}/
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -80,26 +92,29 @@ jobs:
           path: ${{ matrix.folder }}/playwright-report/
           retention-days: 30
   deploy:
-      needs: test
-      runs-on: ubuntu-latest
-      if: needs.test.result == 'success'
-      steps:
-        - uses: actions/checkout@v4
-        - uses: actions/download-artifact@v4
-          with:
-            # 不指定名称，下载所有工件
-            path: all-zip-files/
-        - name: Collect all zip files
-          run: |
-            mkdir -p deploy-zip-files
-            find all-zip-files/ -name "*.zip" -exec cp {} deploy-zip-files/ \;
-        - name: List deploy-zip-files directory
-          run: |
-            echo "Listing contents of deploy-zip-files/"
-            ls -R deploy-zip-files/
-        - name: Deploy to GitHub Pages
-          uses: peaceiris/actions-gh-pages@v3
-          with:
-            personal_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: deploy-zip-files/
-            
+    needs: test
+    runs-on: ubuntu-latest
+    if: needs.test.result == 'success'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          # 下载所有工件
+          path: all-zip-files/
+      - name: List downloaded artifacts
+        run: |
+          echo "Listing contents of all-zip-files/"
+          ls -R all-zip-files/
+      - name: Collect all zip files
+        run: |
+          mkdir -p deploy-zip-files
+          find all-zip-files/ -name '*.zip' -type f -exec cp {} deploy-zip-files/ \;
+      - name: List deploy-zip-files directory
+        run: |
+          echo "Listing contents of deploy-zip-files/"
+          ls -R deploy-zip-files/
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: deploy-zip-files/
