@@ -23,14 +23,10 @@ jobs:
           for dir in test*; do
             if [ -d "$dir" ]; then
               # 检查子目录中是否存在 package.json 文件
-              if [ -f "$dir/package.json" ]; then
+              if [ -f "$dir/playwright.config.ts" ]; then
                 # 可选：检查 package.json 中是否包含 Playwright 依赖
-                if grep -q '"playwright"' "$dir/package.json"; then
-                  echo "Adding $dir to matrix (contains Playwright)"
-                  folders+=("$dir")
-                else
-                  echo "Skipping $dir (Playwright not found in package.json)"
-                fi
+                echo "Adding $dir to matrix (contains Playwright)"
+                folders+=("$dir")
               else
                 echo "Skipping $dir (package.json not found)"
               fi
