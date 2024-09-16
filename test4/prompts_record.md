@@ -1,8 +1,3 @@
----
-title: prompts_record
-
----
-
 # prompts_record
 ## Prompt1 
 ```
