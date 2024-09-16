@@ -36,8 +36,8 @@ b. 輸入新資料點擊編輯按鈕後，網頁顯示如圖2-4所示。
 頁顯示如圖2-6所示。 
 ```
 ## Response1
-![image](https://hackmd.io/_uploads/r1Sq1VH6A.png)
-![image](https://hackmd.io/_uploads/rJUXlNrTC.png)
+![image](./images/image%20(2).png)
+![image](./images/image%20(5).png)
 
 ## Conclusion1
 
@@ -48,7 +48,7 @@ b. 輸入新資料點擊編輯按鈕後，網頁顯示如圖2-4所示。
 網頁開啟後顯示(如圖2-1所示)。共有1個Label、1個Input(含輸入提示訊息，例如:
 買早餐)，以及1個Button。其網頁顏色及字型自訂。 
 圖2-1 初始頁面 
-![image](https://hackmd.io/_uploads/r1ApbEHpA.png)
+![image](./images/image%20(3).png)
 
 
 - 2. (16分) 新增三筆資料： 
@@ -56,20 +56,20 @@ b. 輸入新資料點擊編輯按鈕後，網頁顯示如圖2-4所示。
 料會依序顯示在畫面中(如圖2-2所示)。 
 注意：每一筆顯示資料後面會有兩個按鈕，分別是編輯(圖2-2綠色圖示)與刪除(圖2-2
 紅色圖示)，以及資料下方會有"清除所有項目"之按鈕。  
-![image](https://hackmd.io/_uploads/B1DXz4SaA.png)
+![image](./images/image%20(7).png)
 
  
 - 3. (8分)更新資料： 
 a. 點擊網頁綠色圖示會將資料帶入到網頁輸入欄位中，並且送出按鈕之文字會變成"編
 輯"，畫面如圖2-3所示。 
-![image](https://hackmd.io/_uploads/SyEUGESTA.png)
+![image](./images/image%20(1).png)
 
 
 - 4. (4分)刪除資料：點擊網頁紅色圖示，則會刪除此筆資料。網頁顯示如圖2-5所示。 
 圖2-5 刪除"買牛奶" 
-![image](https://hackmd.io/_uploads/SJBwGNSa0.png)
+![image](./images/image%20(8).png)
 
 
 - 5. (4分)清除資料：點擊網頁下方"清除所有項目"之按鈕，則會清除網頁所有項目資料。網
 頁顯示如圖2-6所示。 
-![image](https://hackmd.io/_uploads/HyOuMEH6A.png)
+![image](./images/image%20(4).png)
