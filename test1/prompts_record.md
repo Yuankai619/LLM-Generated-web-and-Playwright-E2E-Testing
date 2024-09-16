@@ -38,3 +38,58 @@ bug: 一開始談出的選擇視窗樣式錯誤，看不到任何的文字和符
 ![image](./images/prompt3-3.png)
 ![image](./images/prompt3-2.png)
 ![image](./images/prompt3-4.png)
+
+
+---
+## Prompt 4
+以上的程式碼是正確的，但是我現在要做自動化測試，所以需要在所有需要的html tag中加上data-testid和aria-label方便我的測試程式碼抓到元素，給我完整的程式碼
+
+有完成所有需求
+### 成果
+```html
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>井字遊戲</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>井字遊戲</h1>
+        <div id="board" class="board" data-testid="game-board" aria-label="井字遊戲棋盤">
+            <div class="cell" data-index="0" data-testid="cell-0" aria-label="棋格 0"></div>
+            <div class="cell" data-index="1" data-testid="cell-1" aria-label="棋格 1"></div>
+            <div class="cell" data-index="2" data-testid="cell-2" aria-label="棋格 2"></div>
+            <div class="cell" data-index="3" data-testid="cell-3" aria-label="棋格 3"></div>
+            <div class="cell" data-index="4" data-testid="cell-4" aria-label="棋格 4"></div>
+            <div class="cell" data-index="5" data-testid="cell-5" aria-label="棋格 5"></div>
+            <div class="cell" data-index="6" data-testid="cell-6" aria-label="棋格 6"></div>
+            <div class="cell" data-index="7" data-testid="cell-7" aria-label="棋格 7"></div>
+            <div class="cell" data-index="8" data-testid="cell-8" aria-label="棋格 8"></div>
+        </div>
+    </div>
+
+    <!-- 選擇符號的彈跳視窗 -->
+    <div id="symbolChoice" class="modal" data-testid="symbol-choice-modal" aria-label="選擇符號視窗">
+        <div class="modal-content" data-testid="symbol-choice-content" aria-label="選擇符號內容">
+            <span id="closeModal" class="close" data-testid="close-modal" aria-label="關閉視窗">&times;</span>
+            <h2 data-testid="modal-title" aria-label="選擇你的符號">選擇你的符號</h2>
+            <button id="chooseX" data-testid="choose-X" aria-label="選擇 X">X</button>
+            <button id="chooseO" data-testid="choose-O" aria-label="選擇 O">O</button>
+        </div>
+    </div>
+
+    <!-- 贏/輸/平局通知的彈跳視窗 -->
+    <div id="resultModal" class="modal" data-testid="result-modal" aria-label="結果通知視窗">
+        <div class="modal-content" data-testid="result-content" aria-label="結果通知內容">
+            <h2 id="resultMessage" data-testid="result-message" aria-label="結果訊息"></h2>
+            <button id="confirmResult" data-testid="confirm-result" aria-label="確認結果">確定</button>
+        </div>
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
+```
