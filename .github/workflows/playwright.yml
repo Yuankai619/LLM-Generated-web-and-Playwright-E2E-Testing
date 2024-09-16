@@ -37,10 +37,10 @@ jobs:
             fi
           done
 
-          # 如果没有符合条件的文件夹，设置一个默认值，以避免矩阵为空导致错误
+          # 如果没有符合条件的文件夹，设置矩阵为空数组
           if [ ${#folders[@]} -eq 0 ]; then
             echo "No valid folders found."
-            folders_json='["__no_folder__"]'
+            folders_json='[]'
           else
             # 将文件夹数组转换为 JSON 格式
             folders_json=$(printf '%s\n' "${folders[@]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')
@@ -54,10 +54,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.generate-matrix.outputs.matrix) }}
-      # 如果矩阵中的文件夹为 '__no_folder__'，则跳过此作业
       fail-fast: false
       max-parallel: 4
-    if: ${{ matrix.folder != '__no_folder__' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
