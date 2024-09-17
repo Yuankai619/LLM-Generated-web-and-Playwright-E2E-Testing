@@ -119,12 +119,41 @@ jobs:
           ls -R deploy-zip-files/
       - name: Generate index.html
         run: |
-            echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Playwright Traces</title></head><body><h1>Playwright Traces</h1><ul>" > deploy-zip-files/index.html
+            echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Playwright Traces</title><style> 
+            body { 
+                background-color: #2B313F; 
+                color: #EAF4FC; 
+                font-family: Arial, sans-serif; 
+            } 
+            h1 { 
+                text-align: center; 
+                margin-top: 50px; 
+            } 
+            ul { 
+                list-style-type: none; 
+                padding: 0; 
+            } 
+            li { 
+                text-align: center; 
+                font-size: 1.2em; 
+                margin: 20px 0; 
+            } 
+            a { 
+                color: #EAF4FC; 
+                text-decoration: none; 
+                padding: 10px 20px; 
+                display: inline-block; 
+                transition: all 0.3s ease; 
+            } 
+            a:hover { 
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
+            } 
+            </style></head><body><h1>Playwright Traces</h1><ul>" > deploy-zip-files/index.html
             for file in deploy-zip-files/*.zip; do
-              filename=$(basename "$file")
-              url="https://${{ github.repository_owner }}.github.io/${{ github.repository }}/$filename"
-              trace_url="https://trace.playwright.dev/?trace=$url"
-              echo "<li><a href='$trace_url'>$filename</a></li>" >> deploy-zip-files/index.html
+            filename=$(basename "$file")
+            url="https://${{ github.repository_owner }}.github.io/${{github.event.repository.name}}/$filename"
+            trace_url="https://trace.playwright.dev/?trace=$url"
+            echo "<li><a href='$trace_url'>$filename</a></li>" >> deploy-zip-files/index.html
             done
             echo "</ul></body></html>" >> deploy-zip-files/index.html
       - name: Deploy to GitHub Pages
