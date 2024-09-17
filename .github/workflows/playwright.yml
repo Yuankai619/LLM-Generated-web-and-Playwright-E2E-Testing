@@ -18,18 +18,13 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
       - uses: actions/checkout@v4
-
       - id: set-matrix
         run: |
-          # 初始化一个空的数组来存储符合条件的文件夹
           folders=()
-
-          # 遍历所有以 'test' 开头的子目录
           for dir in test*; do
             if [ -d "$dir" ]; then
-              # 检查子目录中是否存在 package.json 文件
+              # check if the folder contains a playwright.config.ts file
               if [ -f "$dir/playwright.config.ts" ]; then
-                # 可选：检查 package.json 中是否包含 Playwright 依赖
                 echo "Adding $dir to matrix (contains Playwright)"
                 folders+=("$dir")
               else
@@ -38,12 +33,10 @@ jobs:
             fi
           done
 
-          # 如果没有符合条件的文件夹，设置矩阵为空数组
           if [ ${#folders[@]} -eq 0 ]; then
             echo "No valid folders found."
             folders_json='[]'
           else
-            # 将文件夹数组转换为 JSON 格式
             folders_json=$(printf '%s\n' "${folders[@]}" | jq -R -s -c 'split("\n") | map(select(length > 0))')
           fi
 
@@ -82,12 +75,11 @@ jobs:
       - name: List collected trace.zip files
         run: |
               echo "Listing collected trace.zip files in zip-files/${{ matrix.folder }}/"
-              ls -R zip-files/${{ matrix.folder }}/
-          
+              ls -R zip-files/${{ matrix.folder }}/  
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: zip-files-${{ matrix.folder }}
+          name: ${{ matrix.folder }}
           path: zip-files/${{ matrix.folder }}
           retention-days: 30
     #   - uses: actions/upload-artifact@v4
@@ -104,24 +96,19 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
-          # 下载所有工件
-          path: all-zip-files/
+          path: all-trace-files/
       - name: List downloaded artifacts
         run: |
-          echo "Listing contents of all-zip-files/"
-          ls -R all-zip-files/
+          echo "Listing contents of all-trace-files/"
+          ls -R all-trace-files/
       - name: Collect all trace.zip files
         run: |
             mkdir -p deploy-zip-files
-            find all-zip-files/ -name 'trace.zip' -type f -print0 | while IFS= read -r -d '' file; do
-              # 获取文件相对于 all-zip-files/ 的路径
-              relpath=${file#all-zip-files/}
-              # 创建目标目录
+            find all-trace-files/ -name 'trace.zip' -type f -print0 | while IFS= read -r -d '' file; do
+              relpath=${file#all-trace-files/}
               mkdir -p "deploy-zip-files/$(dirname "$relpath")"
-              # 复制文件到目标目录，保留目录结构
               cp "$file" "deploy-zip-files/$relpath"
             done
-        
       - name: List deploy-zip-files directory
         run: |
           echo "Listing contents of deploy-zip-files/"
