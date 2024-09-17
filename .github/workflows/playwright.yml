@@ -2,9 +2,13 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    paths-ignore:
+        - 'README.md'
+    branches: main
   pull_request:
-    branches: [ main, master ]
+    paths-ignore:
+        - 'README.md'
+    branches: main
 permissions:
   contents: write
 jobs:
@@ -85,12 +89,12 @@ jobs:
           name: zip-files-${{ matrix.folder }}
           path: zip-files/${{ matrix.folder }}
           retention-days: 30
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: playwright-report-${{ matrix.folder }}
-          path: ${{ matrix.folder }}/playwright-report/
-          retention-days: 30
+    #   - uses: actions/upload-artifact@v4
+    #     if: always()
+    #     with:
+    #       name: playwright-report-${{ matrix.folder }}
+    #       path: ${{ matrix.folder }}/playwright-report/
+    #       retention-days: 30
   deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -113,6 +117,16 @@ jobs:
         run: |
           echo "Listing contents of deploy-zip-files/"
           ls -R deploy-zip-files/
+      - name: Generate index.html
+        run: |
+            echo "<!DOCTYPE html><html><head><meta charset='UTF-8'><title>Playwright Traces</title></head><body><h1>Playwright Traces</h1><ul>" > deploy-zip-files/index.html
+            for file in deploy-zip-files/*.zip; do
+              filename=$(basename "$file")
+              url="https://${{ github.repository_owner }}.github.io/${{ github.repository }}/$filename"
+              trace_url="https://trace.playwright.dev/?trace=$url"
+              echo "<li><a href='$trace_url'>$filename</a></li>" >> deploy-zip-files/index.html
+            done
+            echo "</ul></body></html>" >> deploy-zip-files/index.html
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
