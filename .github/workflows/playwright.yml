@@ -70,8 +70,8 @@ jobs:
           ls -R ${{ matrix.folder }}/test-results/
       - name: Collect trace.zip files
         run: |
-            mkdir -p zip-files/${{ matrix.folder }}
-            find ${{ matrix.folder }}/test-results/ -name 'trace.zip' -type f -exec cp --parents {} zip-files/${{ matrix.folder }}/ \;  
+            mkdir -p zip-files/
+            find ${{ matrix.folder }}/test-results/ -name 'trace.zip' -type f -exec cp --parents {} zip-files/ \;  
       - name: List collected trace.zip files
         run: |
               echo "Listing collected trace.zip files in zip-files/${{ matrix.folder }}/"
