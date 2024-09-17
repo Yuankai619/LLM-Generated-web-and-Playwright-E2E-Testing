@@ -75,14 +75,15 @@ jobs:
         run: |
           echo "Listing contents of ${{ matrix.folder }}/test-results/"
           ls -R ${{ matrix.folder }}/test-results/
-      - name: Collect zip files
+      - name: Collect trace.zip files
         run: |
-          mkdir -p zip-files/${{ matrix.folder }}
-          find ${{ matrix.folder }}/test-results/ -name '*.zip' -type f -exec cp {} zip-files/${{ matrix.folder }}/ \;
-      - name: List collected zip files
+            mkdir -p zip-files/${{ matrix.folder }}
+            find ${{ matrix.folder }}/test-results/ -name 'trace.zip' -type f -exec cp --parents {} zip-files/${{ matrix.folder }}/ \;  
+      - name: List collected trace.zip files
         run: |
-          echo "Listing collected zip files in zip-files/${{ matrix.folder }}/"
-          ls -R zip-files/${{ matrix.folder }}/
+              echo "Listing collected trace.zip files in zip-files/${{ matrix.folder }}/"
+              ls -R zip-files/${{ matrix.folder }}/
+          
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -109,10 +110,18 @@ jobs:
         run: |
           echo "Listing contents of all-zip-files/"
           ls -R all-zip-files/
-      - name: Collect all zip files
+      - name: Collect all trace.zip files
         run: |
-          mkdir -p deploy-zip-files
-          find all-zip-files/ -name '*.zip' -type f -exec cp {} deploy-zip-files/ \;
+            mkdir -p deploy-zip-files
+            find all-zip-files/ -name 'trace.zip' -type f -print0 | while IFS= read -r -d '' file; do
+              # 获取文件相对于 all-zip-files/ 的路径
+              relpath=${file#all-zip-files/}
+              # 创建目标目录
+              mkdir -p "deploy-zip-files/$(dirname "$relpath")"
+              # 复制文件到目标目录，保留目录结构
+              cp "$file" "deploy-zip-files/$relpath"
+            done
+        
       - name: List deploy-zip-files directory
         run: |
           echo "Listing contents of deploy-zip-files/"
@@ -149,11 +158,11 @@ jobs:
                 box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
             } 
             </style></head><body><h1>Playwright Traces</h1><ul>" > deploy-zip-files/index.html
-            for file in deploy-zip-files/*.zip; do
-            filename=$(basename "$file")
-            url="https://${{ github.repository_owner }}.github.io/${{github.event.repository.name}}/$filename"
-            trace_url="https://trace.playwright.dev/?trace=$url"
-            echo "<li><a href='$trace_url'>$filename</a></li>" >> deploy-zip-files/index.html
+            find deploy-zip-files/ -name 'trace.zip' -type f | while read file; do
+                relpath=${file#deploy-zip-files/}
+                url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/$relpath"
+                trace_url="https://trace.playwright.dev/?trace=$url"
+                echo "<li><a href='$trace_url'>$relpath</a></li>" >> deploy-zip-files/index.html
             done
             echo "</ul></body></html>" >> deploy-zip-files/index.html
       - name: Deploy to GitHub Pages
