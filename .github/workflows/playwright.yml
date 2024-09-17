@@ -79,7 +79,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ${{ matrix.folder }}
           path: zip-files/
           retention-days: 30
     #   - uses: actions/upload-artifact@v4
