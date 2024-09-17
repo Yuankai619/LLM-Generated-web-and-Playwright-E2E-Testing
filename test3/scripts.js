@@ -8,8 +8,8 @@ const itemPriceData = `
 
 // 初始化頁面
 document.addEventListener('DOMContentLoaded', () => {
-    const itemSelect = document.getElementById('item');
-    const sizeSelect = document.getElementById('size');
+    const itemSelect = document.querySelector('[id="item"]');
+    const sizeSelect = document.querySelector('[id="size"]');
     const quantityInput = document.getElementById('quantity');
     const customerInput = document.getElementById('customer');
     const priceSpan = document.getElementById('price');
