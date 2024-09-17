@@ -10,7 +10,7 @@ const itemPriceData = `
 document.addEventListener('DOMContentLoaded', () => {
     const itemSelect = document.getElementById('item');
     const sizeSelect = document.getElementById('size');
-    const quantityInput = document.getElementById('quantity');
+    const quantityInput = document.querySelector('[label="quantity""]');
     const customerInput = document.getElementById('customer');
     const priceSpan = document.getElementById('price');
     const totalSpan = document.getElementById('total');
