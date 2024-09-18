@@ -80,6 +80,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
+          name: ${{ matrix.folder }}-trace
           path: zip-files/
           retention-days: 30
     #   - uses: actions/upload-artifact@v4
@@ -88,7 +89,7 @@ jobs:
     #       name: playwright-report-${{ matrix.folder }}
     #       path: ${{ matrix.folder }}/playwright-report/
     #       retention-days: 30
-    
+
   deploy:
     needs: test
     runs-on: ubuntu-latest
@@ -106,7 +107,7 @@ jobs:
         run: |
             mkdir -p deploy-zip-files
             find all-trace-files/ -name 'trace.zip' -type f -print0 | while IFS= read -r -d '' file; do
-              relpath=${file#all-trace-files/artifact/}
+              relpath=${file#all-trace-files/${matrix.folder}-trace/}
               mkdir -p "deploy-zip-files/$(dirname "$relpath")"
               cp "$file" "deploy-zip-files/$relpath"
             done
