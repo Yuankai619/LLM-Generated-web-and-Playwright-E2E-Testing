@@ -73,3 +73,185 @@ a. 點擊網頁綠色圖示會將資料帶入到網頁輸入欄位中，並且�
 - 5. (4分)清除資料：點擊網頁下方"清除所有項目"之按鈕，則會清除網頁所有項目資料。網
 頁顯示如圖2-6所示。 
 ![image](./images/image%20(4).png)
+
+
+
+## Prompt2
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>待辦事項清單</h1>
+        <label for="itemInput">新增項目：</label>
+        <input type="text" id="itemInput" placeholder="輸入項目名稱">
+        <button id="addButton">新增</button>
+
+        <ul id="itemList"></ul>
+        <button id="clearAllButton">清除所有項目</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+let editIndex = null;
+
+document.getElementById('addButton').addEventListener('click', function() {
+    const input = document.getElementById('itemInput');
+    const inputValue = input.value.trim();
+
+    if (inputValue === "") {
+        alert("請輸入項目名稱！");
+        return;
+    }
+
+    if (editIndex === null) {
+        addItem(inputValue);
+    } else {
+        updateItem(inputValue);
+    }
+
+    input.value = "";
+});
+
+document.getElementById('clearAllButton').addEventListener('click', clearAllItems);
+
+function addItem(value) {
+    const itemList = document.getElementById('itemList');
+    const li = document.createElement('li');
+    li.innerHTML = 
+        ${value}
+        <div class="actions">
+            <button class="edit" onclick="editItem(this)">✏️</button>
+            <button class="delete" onclick="deleteItem(this)">🗑️</button>
+        </div>
+    ;
+    itemList.appendChild(li);
+}
+
+function editItem(button) {
+    const li = button.parentNode.parentNode;
+    const itemValue = li.firstChild.textContent.trim();
+    document.getElementById('itemInput').value = itemValue;
+    document.getElementById('addButton').textContent = "編輯";
+    editIndex = Array.from(li.parentNode.children).indexOf(li);
+}
+
+function updateItem(value) {
+    const itemList = document.getElementById('itemList');
+    const li = itemList.children[editIndex];
+    li.firstChild.textContent = value;
+    document.getElementById('addButton').textContent = "新增";
+    editIndex = null;
+}
+
+function deleteItem(button) {
+    const li = button.parentNode.parentNode;
+    li.remove();
+}
+
+function clearAllItems() {
+    document.getElementById('itemList').innerHTML = "";
+}
+
+加上aria-label 和 data-testid
+```
+
+## Response2
+外觀跟第一題一樣
+### html:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>待辦事項清單</h1>
+        <label for="itemInput">新增項目：</label>
+        <input type="text" id="itemInput" placeholder="輸入項目名稱" aria-label="項目輸入框">
+        <button id="addButton" aria-label="新增項目" data-testid="add-button">新增</button>
+
+        <ul id="itemList" aria-label="待辦事項清單"></ul>
+        <button id="clearAllButton" aria-label="清除所有項目" data-testid="clear-all-button">清除所有項目</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+```
+### js:
+```js
+let editIndex = null;
+
+document.getElementById('addButton').addEventListener('click', function() {
+    const input = document.getElementById('itemInput');
+    const inputValue = input.value.trim();
+
+    if (inputValue === "") {
+        alert("請輸入項目名稱！");
+        return;
+    }
+
+    if (editIndex === null) {
+        addItem(inputValue);
+    } else {
+        updateItem(inputValue);
+    }
+
+    input.value = "";
+});
+
+document.getElementById('clearAllButton').addEventListener('click', clearAllItems);
+
+function addItem(value) {
+    const itemList = document.getElementById('itemList');
+    const li = document.createElement('li');
+    li.innerHTML = `
+        ${value}
+        <div class="actions">
+            <button class="edit" onclick="editItem(this)" aria-label="編輯項目" data-testid="edit-button">✏️</button>
+            <button class="delete" onclick="deleteItem(this)" aria-label="刪除項目" data-testid="delete-button">🗑️</button>
+        </div>
+    `;
+    itemList.appendChild(li);
+}
+
+function editItem(button) {
+    const li = button.parentNode.parentNode;
+    const itemValue = li.firstChild.textContent.trim();
+    document.getElementById('itemInput').value = itemValue;
+    document.getElementById('addButton').textContent = "編輯";
+    editIndex = Array.from(li.parentNode.children).indexOf(li);
+}
+
+function updateItem(value) {
+    const itemList = document.getElementById('itemList');
+    const li = itemList.children[editIndex];
+    li.firstChild.textContent = value;
+    document.getElementById('addButton').textContent = "新增";
+    editIndex = null;
+}
+
+function deleteItem(button) {
+    const li = button.parentNode.parentNode;
+    li.remove();
+}
+
+function clearAllItems() {
+    document.getElementById('itemList').innerHTML = "";
+}
+
+```
+
+## Conclusion2
+加上aria-label 跟 data-testid 基本沒有影響
