@@ -6,7 +6,6 @@ const itemPriceData = `
 珍珠奶茶,大杯,60
 `.trim().split('\n').map(line => line.split(','));
 
-// 初始化頁面
 document.addEventListener('DOMContentLoaded', () => {
     const itemSelect = document.getElementById('item');
     const sizeSelect = document.getElementById('size');
@@ -134,4 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化
     updateSizeOptions();
     updatePrice();
+
+    // 記住第一個訂購人的名字
+    let firstCustomerName = '';
+    confirmButton.addEventListener('click', () => {
+        if (!firstCustomerName) {
+            firstCustomerName = customerInput.value;
+        } else {
+            customerInput.value = firstCustomerName;
+        }
+    });
 });

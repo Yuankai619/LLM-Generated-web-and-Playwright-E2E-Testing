@@ -5,7 +5,7 @@ body {
     padding: 20px;
 }
 
-h1 {
+h1, h2 {
     color: #333;
     margin-bottom: 20px;
 }
@@ -37,11 +37,12 @@ h1 {
 }
 
 #confirm, #delete-selected, #checkout {
-    padding: 5px 10px;
+    padding: 10px 15px;
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    margin-right: 10px;
 }
 
 #confirm:hover, #delete-selected:hover, #checkout:hover {
@@ -55,4 +56,12 @@ h1 {
 #order-summary {
     margin-left: 20px;
     font-weight: bold;
+}
+
+#orders tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#orders tbody tr:hover {
+    background-color: #f5f5f5;
 }
