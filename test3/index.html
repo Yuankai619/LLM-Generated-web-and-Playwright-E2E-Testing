@@ -3,59 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>飲料訂購系統</title>
+    <title>來點什麼 - 飲料訂購系統</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>來點什麼...</h1>
-    <div id="order-form">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>品名</th>
-                    <th>容量</th>
-                    <th>單價</th>
-                    <th>數量</th>
-                    <th>金額</th>
-                    <th>溫度</th>
-                    <th>甜度</th>
-                    <th>訂購人</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><button id="confirm">確認</button></td>
-                    <td><select id="item" name="item"></select></td>
-                    <td><select id="size" name="size"></select></td>
-                    <td><span id="price">0</span></td>
-                    <td><input type="number" id="quantity" name="quantity" min="1" value="1"></td>
-                    <td><span id="total">0</span></td>
-                    <td>
-                        <select id="temperature" name="temperature">
-                            <option value="熱">熱</option>
-                            <option value="全冰">全冰</option>
-                            <option value="少冰">少冰</option>
-                            <option value="去冰">去冰</option>
-                        </select>
-                    </td>
-                    <td>
-                        <select id="sweetness" name="sweetness">
-                            <option value="全糖">全糖</option>
-                            <option value="8分糖">8分糖</option>
-                            <option value="5分糖">5分糖</option>
-                            <option value="3分糖">3分糖</option>
-                            <option value="1分糖">1分糖</option>
-                            <option value="無糖">無糖</option>
-                        </select>
-                    </td>
-                    <td><input type="text" id="customer" name="customer"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
 
-    <div id="order-list">
+    <form id="order-form" data-testid="order-form">
+        <table>
+            <tr>
+                <th>品名</th>
+                <th>容量</th>
+                <th>單價</th>
+                <th>數量</th>
+                <th>金額</th>
+                <th>溫度</th>
+                <th>甜度</th>
+                <th>訂購人</th>
+            </tr>
+            <tr>
+                <td>
+                    <select id="item" data-testid="item-select" aria-label="選擇品名"></select>
+                </td>
+                <td>
+                    <select id="size" data-testid="size-select" aria-label="選擇容量"></select>
+                </td>
+                <td>
+                    <span id="price" data-testid="price-display" aria-label="單價">0</span>
+                </td>
+                <td>
+                    <input type="number" id="quantity" data-testid="quantity-input" aria-label="輸入數量" min="1" value="1">
+                </td>
+                <td>
+                    <span id="total" data-testid="total-display" aria-label="總金額">0</span>
+                </td>
+                <td>
+                    <select id="temperature" data-testid="temperature-select" aria-label="選擇溫度">
+                        <option value="熱">熱</option>
+                        <option value="全冰">全冰</option>
+                        <option value="少冰">少冰</option>
+                        <option value="去冰">去冰</option>
+                    </select>
+                </td>
+                <td>
+                    <select id="sweetness" data-testid="sweetness-select" aria-label="選擇甜度">
+                        <option value="全糖">全糖</option>
+                        <option value="8分糖">8分糖</option>
+                        <option value="5分糖">5分糖</option>
+                        <option value="3分糖">3分糖</option>
+                        <option value="1分糖">1分糖</option>
+                        <option value="無糖">無糖</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" id="customer" data-testid="customer-input" aria-label="輸入訂購人姓名">
+                </td>
+            </tr>
+        </table>
+        <button type="button" id="confirm" data-testid="confirm-button">確認</button>
+    </form>
+
+    <div id="order-list" data-testid="order-list">
         <h2>訂購清單</h2>
         <table id="orders">
             <thead>
@@ -73,9 +81,9 @@
             </thead>
             <tbody></tbody>
         </table>
-        <button id="delete-selected">刪除勾選</button>
-        <span id="order-summary"></span>
-        <button id="checkout">結帳</button>
+        <button id="delete-selected" data-testid="delete-selected-button">刪除勾選</button>
+        <span id="order-summary" data-testid="order-summary"></span>
+        <button id="checkout" data-testid="checkout-button">結帳</button>
     </div>
 
     <script src="scripts.js"></script>
