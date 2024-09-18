@@ -28,6 +28,8 @@ function updateQuestion() {
         option.className = 'option';
         const letter = String.fromCharCode(97 + i);
         option.textContent = `(${letter}): 答案${letter}${currentQuestion + 1}`;
+        option.setAttribute('aria-label', `選項 ${letter}`);
+        option.setAttribute('data-testid', `option-${letter}`);
         if (!quizSubmitted) {
             option.onclick = () => selectOption(letter);
         }
@@ -41,8 +43,12 @@ function updateQuestion() {
     
     if (currentQuestion === questions.length - 1 && !quizSubmitted) {
         nextBtn.textContent = '送出測驗';
+        nextBtn.setAttribute('aria-label', '送出測驗');
+        nextBtn.setAttribute('data-testid', 'submit-button');
     } else {
         nextBtn.textContent = '下一個問題';
+        nextBtn.setAttribute('aria-label', '下一個問題');
+        nextBtn.setAttribute('data-testid', 'next-button');
     }
     nextBtn.style.display = currentQuestion < questions.length - 1 || !quizSubmitted ? 'block' : 'none';
 }
