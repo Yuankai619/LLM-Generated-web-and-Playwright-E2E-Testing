@@ -93,3 +93,46 @@ bug: 一開始談出的選擇視窗樣式錯誤，看不到任何的文字和符
 </body>
 </html>
 ```
+
+--- 
+# 以下是測試prompt
+
+## Prompt1
+現在要用playwright進行端對端測試，針對每一個需求進行最詳盡的測試並且給我，預設使用typerscript 去生成playwright腳本，對於每個測試腳本要註解是測試的需求是哪個，並且盡量用data-testid和aria-label去做selector，給我完整的測試腳本
+
+## Prompt2
+生成的測試有幾個錯誤
+每個動作是隨機的，所以沒辦法透過按照順序按格子模擬玩遊戲，因為有可能已經被電腦選走了
+還有每個動作電腦回應都會停頓600ms，所以玩遊戲的過程中都要先等電腦回應後再動作
+還有測試上沒有測試到遊戲結束後判斷輸贏是不是合法的
+
+## Prompt3
+在測試should randomly decide who goes first有錯誤，因為先手是隨機決定的，因此有可能是後手也有可能是先手，但是判斷卻是空格要小於9，如果是先手的話就會出錯
+還有測試should display "Congratulations! You win" when player wins有錯誤，因為電腦是隨機選格子，所以如果直接模擬寫死的步驟碰巧被電腦選走就會出錯
+should display "You lose! Try again" when player loses也是一樣，沒辦法透過簡單寫死的步驟讓電腦贏
+should display "It\'s a tie!" when there is a tie也是，寫死的步驟會難以保證結果是平手的
+should verify if the game ends with a correct legal win/loss condition也是沒辦法透過寫死的步驟保證這個是贏局或輸局，也有可能平手或是還沒結束
+should restart game after confirming result 也是一樣的問題，寫死的步驟不能確保遊戲結束
+
+## Prompt4
+在should randomly decide who goes first會有錯誤: Error: expect(received).toBeGreaterThanOrEqual(expected)
+
+Matcher error: received value must be a number or bigint
+
+Received has type:  object
+Received has value: {Symbol(async_id_symbol): 5177, Symbol(trigger_async_id_symbol): 5176, Symbol(kResourceStore): undefined}
+還有should not allow painting over existing moves會有錯誤:
+Error: expect(received).toBeLessThan(expected)
+
+Matcher error: received value must be a number or bigint
+
+Received has type:  object
+Received has value: {Symbol(async_id_symbol): 7091, Symbol(trigger_async_id_symbol): 7090, Symbol(kResourceStore): undefined}
+還有should restart game after confirming result有錯誤:
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 9
+Received: {Symbol(async_id_symbol): 20900, Symbol(trigger_async_id_symbol): 20899, Symbol(kResourceStore): undefined}
+還有在測試最後結果要輸、贏、平手的測試遊玩過程雖然正確但是電腦是隨機的，所以真的輸贏情形是無法預測的，所以應該要改成由玩遊戲然後判斷遊戲結果和board上面的紀錄是不是符合輸贏的條件才對
+## Prompt5
+還是有一些錯，在測試should display "It\'s a tie!" when there is a tie、should display "You lose! Try again" when player loses、其實是在測試同個動作，所以可以結合成一個就好
