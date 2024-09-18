@@ -49,7 +49,7 @@ test('basic element test', async ({ page }) => {
   await expect(page.getByTestId('checkout-button')).toBeVisible();
 });
 //一個普通的test 對於同一個人 他的訂單流程
-test('basic process test', async ({ page }) => {
+test('only one person process test', async ({ page }) => {
   await page.goto('http://localhost:8080/');
   await page.getByTestId('item-select').selectOption('珍珠奶茶');
   await page.getByTestId('size-select').selectOption('大杯');
@@ -63,6 +63,54 @@ test('basic process test', async ({ page }) => {
   await page.getByTestId('confirm-button').click();
   await page.getByTestId('confirm-button').dblclick();
   await page.getByRole('checkbox').nth(1).check();
+  await page.getByTestId('delete-selected-button').click();
+  page.once('dialog', dialog => {
+    console.log(`Dialog message: ${dialog.message()}`);
+    dialog.dismiss().catch(() => {});
+  });
+  await page.getByTestId('checkout-button').click();
+});
+
+//有多個人，每個人都有不同的請求
+test('three person process test', async ({ page }) => {
+  await page.goto('http://localhost:8080/');
+  await page.getByTestId('item-select').selectOption('珍珠奶茶');
+  await page.getByTestId('size-select').selectOption('大杯');
+  await page.getByTestId('quantity-input').click();
+  await page.getByTestId('quantity-input').fill('13');
+  await page.getByTestId('quantity-input').click();
+  await page.getByTestId('quantity-input').click();
+  await page.getByTestId('temperature-select').selectOption('全冰');
+  await page.getByTestId('customer-input').click();
+  await page.getByTestId('customer-input').fill('A先生');
+  await page.getByTestId('customer-input').press('Enter');
+  await page.getByTestId('confirm-button').click();
+  await page.getByTestId('customer-input').click();
+  await page.getByTestId('customer-input').press('ArrowLeft');
+  await page.getByTestId('customer-input').press('ArrowLeft');
+  await page.getByTestId('customer-input').fill('B先生');
+  await page.getByTestId('customer-input').press('ArrowRight');
+  await page.getByTestId('customer-input').fill('B小姐');
+  await page.getByTestId('customer-input').press('Enter');
+  await page.getByTestId('sweetness-select').selectOption('5分糖');
+  await page.getByTestId('temperature-select').selectOption('去冰');
+  await page.getByTestId('quantity-input').click();
+  await page.getByTestId('quantity-input').fill('1');
+  await page.getByTestId('size-select').selectOption('中杯');
+  await page.getByTestId('item-select').selectOption('綠茶');
+  await page.getByTestId('confirm-button').click();
+  await page.getByTestId('customer-input').click();
+  await page.getByTestId('customer-input').press('ArrowLeft');
+  await page.getByTestId('customer-input').press('ArrowLeft');
+  await page.getByTestId('customer-input').fill('D先生');
+  await page.getByTestId('sweetness-select').selectOption('全糖');
+  await page.getByTestId('size-select').selectOption('大杯');
+  await page.getByTestId('item-select').selectOption('珍珠奶茶');
+  await page.getByTestId('quantity-input').click();
+  await page.getByTestId('quantity-input').fill('16');
+  await page.getByTestId('confirm-button').click();
+  await page.getByTestId('confirm-button').click();
+  await page.getByRole('row', { name: '珍珠奶茶 中杯 50 16 800 去冰 全糖 D先生' }).getByRole('checkbox').check();
   await page.getByTestId('delete-selected-button').click();
   page.once('dialog', dialog => {
     console.log(`Dialog message: ${dialog.message()}`);
