@@ -2,7 +2,9 @@
   "name": "test4",
   "version": "1.0.0",
   "main": "script.js",
-  "scripts": {},
+  "scripts": {
+     "start": "http-server ./ -p 8080"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -10,5 +12,8 @@
   "devDependencies": {
     "@playwright/test": "^1.47.1",
     "@types/node": "^22.5.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
   }
 }
