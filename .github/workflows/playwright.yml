@@ -110,7 +110,8 @@ jobs:
             find all-trace-files/ -name 'trace.zip' -type f -print0 | while IFS= read -r -d '' file; do
               dir1=$(basename "$(dirname "$file")")  
               dir2=$(basename "$(dirname "$(dirname "$file")")") 
-              relpath="$dir2/$dir1/$(basename "$file")" 
+              dir3=$(basename "$(dirname "$(dirname "$(dirname "$file")")")")
+              relpath="$dir3/$dir1/$(basename "$file")" 
               mkdir -p "deploy-zip-files/$(dirname "$relpath")"
               cp "$file" "deploy-zip-files/$relpath"
             done
