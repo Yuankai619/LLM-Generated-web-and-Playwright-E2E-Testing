@@ -29,3 +29,25 @@ bug: 送出測驗後題目沒有變色，並且無法回到下一題
 ![alt text](image.png)
 ![alt text](image-3.png)
 ![alt text](image-4.png)
+
+## Prompt 3
+我現在要做自動化測試，需要在html tag中加入"aria-label"與"data-testid"屬性，請幫我完成並給我全部的程式碼
+
+### 成果
+順利完成所有需求
+```html
+<body>
+    <div class="header">
+        <h1 aria-label="線上測驗標題" data-testid="quiz-title">線上測驗</h1>
+    </div>
+    <div class="question-count" aria-label="題目計數" data-testid="question-count"></div>
+    <div class="options" aria-label="答案選項" data-testid="answer-options"></div>
+    <div class="buttons">
+        <button id="prevBtn" aria-label="前一個問題" data-testid="prev-button" style="display: none;">前一個問題</button>
+        <button id="nextBtn" aria-label="下一個問題" data-testid="next-button">下一個問題</button>
+    </div>
+    <div class="result" aria-label="測驗結果" data-testid="quiz-result" style="display: none;"></div>
+
+    <script src="script.js"></script>
+</body>
+```
