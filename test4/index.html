@@ -10,11 +10,11 @@
     <div class="container">
         <h1>待辦事項清單</h1>
         <label for="itemInput">新增項目：</label>
-        <input type="text" id="itemInput" placeholder="輸入項目名稱">
-        <button id="addButton">新增</button>
+        <input type="text" id="itemInput" placeholder="輸入項目名稱" aria-label="項目輸入框">
+        <button id="addButton" aria-label="新增項目" data-testid="add-button">新增</button>
 
-        <ul id="itemList"></ul>
-        <button id="clearAllButton">清除所有項目</button>
+        <ul id="itemList" aria-label="待辦事項清單"></ul>
+        <button id="clearAllButton" aria-label="清除所有項目" data-testid="clear-all-button">清除所有項目</button>
     </div>
     <script src="script.js"></script>
 </body>

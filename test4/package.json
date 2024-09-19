@@ -1,0 +1,20 @@
+{
+  "name": "test4",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "start": "http-server ./ -p 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.47.1",
+    "@types/node": "^22.5.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "http-server": "^14.1.1"
+  }
+}

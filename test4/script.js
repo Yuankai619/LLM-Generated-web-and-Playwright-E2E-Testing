@@ -26,8 +26,8 @@ function addItem(value) {
     li.innerHTML = `
         ${value}
         <div class="actions">
-            <button class="edit" onclick="editItem(this)">✏️</button>
-            <button class="delete" onclick="deleteItem(this)">🗑️</button>
+            <button class="edit" onclick="editItem(this)" aria-label="編輯項目" data-testid="edit-button">✏️</button>
+            <button class="delete" onclick="deleteItem(this)" aria-label="刪除項目" data-testid="delete-button">🗑️</button>
         </div>
     `;
     itemList.appendChild(li);
