@@ -32,7 +32,7 @@ test('loading page', async ({ page }) => {
   await expect(page.getByTestId('quiz-result')).toBeVisible();
 });
 
-test('start a test', async ({ page }) => {
+test('start a exam', async ({ page }) => {
   await page.goto('/');
   const options = ['option-a', 'option-b', 'option-c', 'option-d'];
 
