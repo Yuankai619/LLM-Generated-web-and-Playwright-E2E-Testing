@@ -1,2 +1,5 @@
-# playwright-LLM-prompt-test
-This repository tests LLM-generated code with story-based prompts specifying UI, interaction, and functionality. Results are manually validated, then Playwright scripts are created for automated testing. Prompts also guide LLMs to generate Playwright test scripts.
+# LLM-Generated-web-and-Playwright-E2E-Testing
+
+## Abstract
+
+This project is an experiment on using LLMs (ChatGPT-4, Claude) with prompts to generate HTML, CSS, and JavaScript code that meets user requirements. Afterward, Playwright test scripts are manually written by the experimenter, and prompts are refined until Playwright test scripts are generated that cover all user requirements. The results are then analyzed to assess the feasibility of using LLMs to generate pure front-end web pages and automatically generate E2E test scripts.
