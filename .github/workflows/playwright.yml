@@ -153,7 +153,7 @@ jobs:
             </style></head><body><h1>Playwright Traces</h1><ul>" > deploy-zip-files/index.html
             find deploy-zip-files/ -name 'trace.zip' -type f | while read file; do
                 relpath=${file#deploy-zip-files/}
-                url="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/$relpath"
+                url="https://${{ github.repository_owner }}.github.io/LLM-Generated-web-and-Playwright-E2E-Testing/$relpath"
                 trace_url="https://trace.playwright.dev/?trace=$url"
                 echo "<li><a href='$trace_url'>$relpath</a></li>" >> deploy-zip-files/index.html
             done
