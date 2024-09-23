@@ -55,6 +55,11 @@ Prompts will be given to the assigned LLM to generate an E2E test script in Type
 [deeveer](https://github.com/deeveer) for `test4` 
 
 ##  Experimental Result
+
+
+Snapshots of each Playwright test script: https://yuankai619.github.io/LLM-Generated-web-and-Playwright-E2E-Testing/
+
+
 | test | Does the web page meet the requirments | Whether the test script fully covers the testing |
 | -------- | :--------: | :--------: |
 | test1     | ✅     | ✅     |
